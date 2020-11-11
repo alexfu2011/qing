@@ -15,11 +15,11 @@
 
     app.start();
 
-目录 app 包括一个内置服务器和一个 options.js 文件：
+目录 app 包括一个内置服务器和一个 options.json 文件：
 
-    var options = {
-        hostname: '127.0.0.1',
-        port: 3001
-    };
+    {
+        "host": "localhost",
+        "port": 3001
+    }
 
 通过修改这两个文件可以实现一个简单的 node.js 应用程序。
