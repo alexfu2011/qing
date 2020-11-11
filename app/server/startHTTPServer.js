@@ -3,13 +3,13 @@ const { serve } = require('./createHandle');
 const options = require('../options');
 
 function startHTTPServer() {
-    const hostname = options.hostname;
+    const host = options.host;
     const port = options.port;
 
     const server = http.createServer(serve);
 
-    server.listen(port, hostname, () => {
-        console.log(`App starting at http://${hostname}:${port}/`);
+    server.listen(port, host, () => {
+        console.log(`App starting at http://${host}:${port}/`);
     });
 }
 
