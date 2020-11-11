@@ -15,7 +15,7 @@
 
     app.start();
 
-目录 app 包括一个内置服务器和一个 options.json 文件：
+app 目录包括一个内置服务器和一个 options.json 文件：
 
     {
         "host": "localhost",
