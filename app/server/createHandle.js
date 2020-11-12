@@ -1,14 +1,13 @@
-const fs = require('fs');
 const url = require('url');
 
-var _handle = {}
+const _handle = {}
 
 function createHandle(pathname, handle) {
     _handle[pathname] = handle;
 }
 
 function serve(req, resp) {
-    let pathname = url.parse(req.url).pathname;
+    const pathname = url.parse(req.url).pathname;
 
     if (typeof _handle[pathname] == 'function') {
         _handle[pathname](req, resp);
