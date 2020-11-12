@@ -12,7 +12,7 @@ function serve(req, resp) {
     if (typeof _handle[pathname] == 'function') {
         _handle[pathname](req, resp);
     } else {
-        resp.writeHead(404, {'Content-Type': 'text/plain; charset=utf-8'});
+        resp.writeHead(404, {'Content-Type': 'text/plain; charset=utf8'});
         resp.end('该页不存在！');
     }
 }
