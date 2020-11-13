@@ -1,7 +1,7 @@
 const url = require('url');
 const querystring = require('querystring');
 
-const _handle = {}
+const _handle = {};
 
 function createHandle(pathname, handle) {
     _handle[pathname] = handle;
