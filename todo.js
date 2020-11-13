@@ -22,8 +22,8 @@ function indexHandle(req, resp) {
     'let data = JSON.parse(xhr.responseText);' +
     'let ul = document.querySelector("ul"); let li = document.createElement("li"); li.appendChild(document.createTextNode("－" + data.todo)); li.setAttribute("id", data.id);' +
     'li.onclick = Delete; ul.appendChild(li);}}; xhr.send(json); el.value = "";}};' +
-    'function Delete(event) {let el = event.target; let id = el.id; let url = "/delete?id=" + id; let xhr = new XMLHttpRequest(); xhr.open("DELETE", url, true);' +
-    'xhr.onload = function () { if (xhr.readyState == 4 && xhr.status == "200") { el.remove(); } }; xhr.send(null); console.log(this);}</script>' +
+    'function Delete(event) {let ul = document.querySelector("ul"); let el = event.target; let id = el.id; let url = "/delete?id=" + id; let xhr = new XMLHttpRequest(); xhr.open("DELETE", url, true);' +
+    'xhr.onload = function () { if (xhr.readyState == 4 && xhr.status == "200") { ul.removeChild(el); } }; xhr.send(null); console.log(this);}</script>' +
     '<title>Todo</title></head>' +
     '<body><input placeholder="你想要做什么？" onkeyup="Add(event)" /><ul>');
     for (let i = 0; i < res.length; i++) {
