@@ -19,7 +19,7 @@ function serve(req, resp) {
             req.query = url.parse(req.url, true).query;
             _handle[pathname](req, resp);
         } else {
-            resp.writeHead(404, {'Content-Type': 'text/plain; charset=utf8'});
+            resp.writeHead(404, {'Content-Type': 'text/plain; charset=UTF-8'});
             resp.end('该页不存在！');
         }
     });
