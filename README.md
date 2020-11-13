@@ -66,7 +66,8 @@ app 目录包括一个内置服务器和一个 options.json 文件：
                         let li = document.createElement("li");
                         li.appendChild(document.createTextNode("－" + data.todo));
                         li.setAttribute("id", data.id);
-                        li.onclick = Delete; ul.appendChild(li);
+                        li.onclick = Delete;
+                        ul.appendChild(li);
                         el.value = "";
                     }
                 };
