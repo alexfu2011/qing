@@ -1,23 +1,27 @@
-const url = require('url');
 const querystring = require('querystring');
+const options = require('../options');
 
-const _handle = {};
+const handle = {};
 
-function createHandle(pathname, handle) {
-    _handle[pathname] = handle;
+function createHandle(pathname, func) {
+    handle[pathname] = func;
 }
 
 function serve(req, resp) {
-    const pathname = url.parse(req.url).pathname;
-    let str = '';
-    req.on('data', function(thunk){
-		str += thunk;
-	});
+    let s = '';
+    req.on('data', function(thunk) {
+        s += thunk;
+    });
     req.on('end', function() {
-        if (typeof _handle[pathname] == 'function') {
-            req.form = querystring.parse(str);
-            req.query = url.parse(req.url, true).query;
-            _handle[pathname](req, resp);
+        const host = options.host;
+        const port = options.port;
+        const url = new URL(req.url, `http://${host}:${port}/`);
+        const pathname = url.pathname == '/' ? '/index' : url.pathname;
+
+        if (typeof handle[pathname] == 'function') {
+            req.params = url.searchParams;
+            req.form = querystring.parse(s);
+            handle[pathname](req, resp);
         } else {
             resp.writeHead(404, {'Content-Type': 'text/plain; charset=UTF-8'});
             resp.end('该页不存在！');
