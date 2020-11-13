@@ -9,10 +9,10 @@ function createHandle(pathname, func) {
 
 function serve(req, resp) {
     let s = '';
-    req.on('data', function(thunk) {
+    req.on('data', function (thunk) {
         s += thunk;
     });
-    req.on('end', function() {
+    req.on('end', function () {
         const host = options.host;
         const port = options.port;
         const url = new URL(req.url, `http://${host}:${port}/`);
@@ -21,12 +21,15 @@ function serve(req, resp) {
         if (typeof handle[pathname] == 'function') {
             req.params = url.searchParams;
             req.form = querystring.parse(s);
+            try {
+                req.json = JSON.parse(s);
+            } catch { }
             handle[pathname](req, resp);
         } else {
-            resp.writeHead(404, {'Content-Type': 'text/plain; charset=UTF-8'});
+            resp.writeHead(404, { 'Content-Type': 'text/plain; charset=UTF-8' });
             resp.end('该页不存在！');
         }
     });
 }
 
-module.exports =  { createHandle, serve };
+module.exports = { createHandle, serve };
