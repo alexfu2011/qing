@@ -9,11 +9,11 @@ function createHandle(pathname, handle) {
 
 function serve(req, resp) {
     const pathname = url.parse(req.url).pathname;
-    let str = ''; 
+    let str = '';
     req.on('data', function(thunk){
-        str += thunk;
-    });
-    req.on('end', function(){
+		str += thunk;
+	});
+    req.on('end', function() {
         if (typeof _handle[pathname] == 'function') {
             req.form = querystring.parse(str);
             req.query = url.parse(req.url, true).query;
