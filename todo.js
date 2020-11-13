@@ -41,7 +41,8 @@ function indexHandle(req, resp) {
                     let li = document.createElement("li");
                     li.appendChild(document.createTextNode("－" + data.todo));
                     li.setAttribute("id", data.id);
-                    li.onclick = Delete; ul.appendChild(li);
+                    li.onclick = Delete;
+                    ul.appendChild(li);
                     el.value = "";
                 }
             };
