@@ -41,7 +41,7 @@ app 目录包括一个内置服务器和一个 options.json 文件：
         for (let i = 0; i < res.length; i++) {
             const id = res[i].id;
             const content = res[i].content;
-            resp.write(`<tr><td>${content}</td><td><a href="javascript:Delete(${id})">删除</a></td></tr>`);
+            resp.write(`<tr><td>${content}</td><td><a href="javascript: Delete(${id})">删除</a></td></tr>`);
         }
         resp.end('</table></body></html>');
     }
