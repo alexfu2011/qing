@@ -36,25 +36,39 @@ app 目录包括一个内置服务器和一个 options.json 文件：
 
     function indexHandle(req, resp) {
         resp.writeHead(200, {'Content-Type': 'text/html; charset=UTF-8'});
-        resp.write('<!DOCTYPE html><html><head><title>Todo</title>' +
-            '<script>function Delete(id) {let xhr = new XMLHttpRequest(); xhr.open("DELETE", "/delete?id="+id, true); xhr.send(null); location.href="/";}</script>' +
-            '</head><body><meta http-equiv="Content-Type" Content="text/html; Charset=UTF-8">' +
-            '<form action="/add" method="post"><input type="text" name="content"><input type="submit" value="保存"></form>' +
-            '<table>');
+        resp.write('<!DOCTYPE html><html><head>' +
+        '<style>html { font-family: "Microsoft Yahei"; text-align: center; }' +
+        'body { max-width: 500px; margin: 50px auto;}' +
+        'input { width: 500px; height: 60px; font-size: 40px; border: 0; }' +
+        'input:focus { outline: none;}' +
+        'li { text-align: left; font-size: 30px; list-style: none; margin: 0; }' +
+        'li:hover { text-decoration: line-through; }</style>' +
+        '<script>function Add(event) {if (event.keyCode == 13) {' +
+        'let data = {}; let el = document.querySelector("input"); if (el.value.trim() == "") { el.value = ""; return; }' +
+        'data.todo = el.value; let json = JSON.stringify(data); let xhr = new XMLHttpRequest(); xhr.open("POST", "/add", true); xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");' +
+        'xhr.onload = function () {if (xhr.readyState == 4 && xhr.status == "200") {' +
+        'let data = JSON.parse(xhr.responseText);' +
+        'let ul = document.querySelector("ul"); let li = document.createElement("li"); li.appendChild(document.createTextNode("－" + data.todo)); li.setAttribute("id", data.id);' +
+        'li.onclick = Delete; ul.appendChild(li);}}; xhr.send(json); el.value = "";}};' +
+        'function Delete(event) {let el = event.target; let id = el.id; let url = "/delete?id=" + id; let xhr = new XMLHttpRequest(); xhr.open("DELETE", url, true);' +
+        'xhr.onload = function () { if (xhr.readyState == 4 && xhr.status == "200") { el.remove(); } }; xhr.send(null); console.log(this);}</script>' +
+        '<title>Todo</title></head>' +
+        '<body><input placeholder="你想要做什么？" onkeyup="Add(event)" /><ul>');
         for (let i = 0; i < res.length; i++) {
             const id = res[i].id;
-            const content = res[i].content;
-            resp.write(`<tr><td>${content}</td><td><a href="javascript: Delete(${id})">删除</a></td></tr>`);
+            const todo = res[i].todo;
+            resp.write(`<li id="${id}" onclick="javascript: Delete(event)">－${todo}</li>`);
         }
-        resp.end('</table></body></html>');
+        resp.end('</ul></body></html>');
     }
 
     function addHandle(req, resp) {
-        const content = req.form.content;
+        const todo = req.json.todo;
         const id = res.length - 1 < 0 ? 0 : res.length;
-        res.push({id: id, content: content});
-        resp.writeHead(301, {'Location': '/'});
-        resp.end();
+        const data = {id: id, todo: todo};
+        res.push(data);
+        resp.writeHead(200, {'Content-Type': 'application/json'});
+        resp.end(JSON.stringify(data));
     }
 
     function deleteHandle(req, resp) {
